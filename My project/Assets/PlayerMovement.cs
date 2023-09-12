@@ -12,8 +12,12 @@ public class Mover : MonoBehaviour
     // Variables de uso interno en el script
     private float moverHorizontal;
     private Vector2 direccion;
+    private Animator anim;
+    private SpriteRenderer sprite;
      private bool puedoSaltar = true;
     private bool saltando = false;
+
+    [SerializeField] private AudioSource jumpSoundEffect;
 
     // Variable para referenciar otro componente del objeto
     private Rigidbody2D miRigidbody2D;
@@ -22,6 +26,8 @@ public class Mover : MonoBehaviour
     private void OnEnable()
     {
         miRigidbody2D = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Codigo ejecutado en cada frame del juego (Intervalo variable)
@@ -32,9 +38,14 @@ public class Mover : MonoBehaviour
 
          if (Input.GetKeyDown(KeyCode.Space) && puedoSaltar)
         {
+            jumpSoundEffect.Play();
             puedoSaltar = false;
         }
+        UpdateAnimationState();
     }
+
+
+
     private void FixedUpdate()
     {
         miRigidbody2D.AddForce(direccion * velocidad);
@@ -49,5 +60,25 @@ public class Mover : MonoBehaviour
     {
         puedoSaltar = true;
         saltando = false;
+    }
+
+
+
+    private void UpdateAnimationState()
+    {
+     if(moverHorizontal > 0f)
+        {
+            anim.SetBool("running", true);
+             sprite.flipX = false;
+        }
+        else if(moverHorizontal < 0f)
+        {
+            anim.SetBool("running", true);
+            sprite.flipX = true;
+        }
+        else
+        {
+            anim.SetBool("running", false);
+        }
     }
 }
