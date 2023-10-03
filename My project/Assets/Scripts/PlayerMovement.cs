@@ -6,8 +6,8 @@ public class Mover : MonoBehaviour
 {
     // Variables a configurar desde el editor
     [Header("Configuracion")]
-    [SerializeField] float velocidad = 5f;
-    [SerializeField] private float fuerzaSalto = 5f;
+    //[SerializeField] float velocidad = 5f;
+    //[SerializeField] private float fuerzaSalto = 5f;
 
     // Variables de uso interno en el script
     private float moverHorizontal;
@@ -16,6 +16,7 @@ public class Mover : MonoBehaviour
     private SpriteRenderer sprite;
      private bool puedoSaltar = true;
     private bool saltando = false;
+     public PlayerData playerData;
 
     [SerializeField] private AudioSource jumpSoundEffect;
 
@@ -40,6 +41,7 @@ public class Mover : MonoBehaviour
         {
             jumpSoundEffect.Play();
             puedoSaltar = false;
+            playerData.xp = playerData.xp + 25;
         }
         UpdateAnimationState();
     }
@@ -48,11 +50,11 @@ public class Mover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        miRigidbody2D.AddForce(direccion * velocidad);
+        miRigidbody2D.AddForce(direccion * playerData.speed);
 
          if (!puedoSaltar && !saltando)
         {
-            miRigidbody2D.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse);
+            miRigidbody2D.AddForce(Vector2.up * playerData.jumpHeight, ForceMode2D.Impulse);
             saltando = true;
         }
     }
