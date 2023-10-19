@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IntToStr : MonoBehaviour
+public class IntToStrLives : MonoBehaviour
 {
     public PlayerData playerData;
     public Text ValueText;
@@ -17,6 +17,6 @@ public class IntToStr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ValueText.text = playerData.xp.ToString();
+        ValueText.text = playerData.lives.ToString();
     }
 }
