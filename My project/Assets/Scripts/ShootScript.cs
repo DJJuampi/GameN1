@@ -5,22 +5,16 @@ using UnityEngine;
 public class ShootScript : MonoBehaviour
 {
     public Transform Gun;
-
-    Vector2 direction;
-
     public GameObject Bullet;
-
     public float BulletSpeed;
-
     public Transform ShootPoint;
-
     public float fireRate;
-
     float ReadyForNextShot;
     public GameObject pooledObject;
     public int poolSize;
+    public PlayerMovement playerMovement;
     private List<GameObject> objectPool;
-
+   
 
     private void Start()
     {
@@ -35,8 +29,7 @@ public class ShootScript : MonoBehaviour
 
     void Update()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = mousePos - (Vector2)Gun.position;
+        
         FaceMouse();
 
         if (Input.GetMouseButton(0))
@@ -51,8 +44,6 @@ public class ShootScript : MonoBehaviour
 
     void FaceMouse()
     {
-        // Gun.transform.right = direction;
-
         var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Gun.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -68,6 +59,7 @@ public class ShootScript : MonoBehaviour
         BulletIns.transform.position = ShootPoint.position;
         BulletIns.transform.rotation = ShootPoint.rotation;
         BulletIns.GetComponent<Rigidbody2D>().AddForce(BulletIns.transform.right * BulletSpeed);
+        //playerMovement.Recoil();
         //Destroy(BulletIns, 3);
     }
     public GameObject GetPooledObject()

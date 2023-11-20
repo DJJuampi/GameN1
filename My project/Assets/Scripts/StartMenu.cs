@@ -6,6 +6,14 @@ public class StartMenu : MonoBehaviour
 {
    public void StartGame()
    {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-   } 
+      
+      if (PersistanceManager.Instance.GetInt("CurrentLevel") < 1)
+      {
+         SceneManager.LoadScene(PersistanceManager.Instance.GetInt("CurrentLevel") + 1);
+      }
+      else
+      {
+         SceneManager.LoadScene(PersistanceManager.Instance.GetInt("CurrentLevel"));
+      }
+   }
 }

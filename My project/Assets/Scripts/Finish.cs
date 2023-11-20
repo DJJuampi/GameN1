@@ -13,15 +13,22 @@ public class Finish : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "Player")
         {
+
             finishSound.Play();
             CompleteLevel();
         }
     }
-    
+
     private void CompleteLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //PersistanceManager.Instance.SetInt("CurrentLevel", SceneManager.GetActiveScene().buildIndex + 1);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        Debug.Log("Saving CurrentLevel: " + nextLevelIndex);
+        PersistanceManager.Instance.SetInt("CurrentLevel", nextLevelIndex);
+        SceneManager.LoadScene(nextLevelIndex);
+         PersistanceManager.Instance.Save();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mover : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     // Variables a configurar desde el editor
     [Header("Configuracion")]
@@ -16,8 +16,9 @@ public class Mover : MonoBehaviour
     private SpriteRenderer sprite;
      private bool puedoSaltar = true;
     private bool saltando = false;
-     public PlayerData playerData;
+    public PlayerData playerData;
 
+    public ShootScript shoot;
     [SerializeField] private AudioSource jumpSoundEffect;
 
     // Variable para referenciar otro componente del objeto
@@ -44,6 +45,12 @@ public class Mover : MonoBehaviour
             playerData.xp = playerData.xp + 25;
         }
         UpdateAnimationState();
+
+
+        if (Input.GetMouseButton(0))
+        {
+           Recoil();
+        }
     }
 
 
@@ -83,4 +90,14 @@ public class Mover : MonoBehaviour
             anim.SetBool("running", false);
         }
     }
+
+    public void Recoil()
+    {
+        var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        //var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        //miRigidbody2D.AddForce((dir * -1) + (new Vector3(1f,1f,1f)));
+        miRigidbody2D.AddForce((dir * -1) / 20);
+        
+    }
+    
 }
